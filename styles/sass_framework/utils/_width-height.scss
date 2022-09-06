@@ -1,0 +1,71 @@
+:root {
+  --gap-offset: 0px;
+}
+
+// /***************************
+// / * Width *
+// /***************************
+
+// MAX WIDTH
+@include class-with-responsive-key-and-val(
+  $width--height-percentages,
+  w-max,
+  max-width,
+  true,
+  --gap-offset
+);
+
+// MIN WIDTH
+@include class-with-responsive-key-and-val(
+  $width--height-percentages,
+  w-min,
+  min-width,
+  true,
+  --gap-offset
+);
+
+// SET WIDTH
+@include class-with-responsive-key-and-val(
+  $width--height-percentages,
+  w,
+  width,
+  true,
+  --gap-offset
+);
+
+// /***************************
+// / * Height *
+// /***************************
+
+// MAX HEIGHT
+@include class-with-responsive-key-and-val(
+  $width--height-percentages,
+  h-max,
+  max-height,
+  true,
+  --gap-offset
+);
+
+// MIN HEIGHT
+@include class-with-responsive-key-and-val(
+  $width--height-percentages,
+  h-min,
+  min-height,
+  true,
+  --gap-offset
+);
+
+// SET HEIGHT
+@include class-with-responsive-key-and-val(
+  $width--height-percentages,
+  h,
+  height,
+  true,
+  --gap-offset
+);
+
+// HEIGHT by VH
+@include class-with-responsive-key-and-val($height-vh, h-vh, height);
+
+// WIDTH by vw
+@include class-with-responsive-key-and-val($width-vw, w-vw, width);

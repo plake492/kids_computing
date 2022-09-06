@@ -1,0 +1,35 @@
+.typing {
+  &__key {
+    &--highlighted {
+      outline: 8px $white solid;
+    }
+  }
+
+  &__word {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: $space-md $space-xl;
+    border-radius: $border-radius;
+    display: flex;
+    gap: $space-xl;
+
+    &__letter {
+      color: var(--letter-color);
+
+      &.active {
+        position: relative;
+        text-shadow: 1px 1px 10px var(--letter-color);
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 150%;
+          height: 3px;
+          background-color: var(--letter-color);
+        }
+      }
+    }
+  }
+}

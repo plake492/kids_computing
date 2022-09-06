@@ -1,0 +1,38 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-color: pink;
+}
+
+.body-is-fixed {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+
+nav,
+.nav {
+  background-color: $bg-secondary;
+}
+
+code {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  --base-font-size: var(--text-xs-size);
+  --base-line-height: calc(var(--base-font-size) * var(--line-height-ratio));
+  font-size: var(--base-font-size);
+  line-height: var(--base-line-height);
+  padding: $space-md $space-xl $space-md $space-md;
+  // background-color: $black;
+  @extend .bg-midnight;
+}

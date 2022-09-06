@@ -1,0 +1,38 @@
+.shader {
+  --specular-blend: color-dodge;
+  --specular-gradient: linear-gradient(
+    180deg,
+    black 20%,
+    #3c5e6d 35%,
+    #f4310e,
+    #f58308 80%,
+    black
+  );
+  --mask-blend: multiply;
+
+  position: relative;
+  overflow: hidden;
+  backface-visibility: hidden; /* to force GPU performance */
+
+  &__layer {
+    background: black;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 100%;
+    background-position: center;
+
+    &.specular {
+      mix-blend-mode: var(--specular-blend);
+      background-attachment: fixed;
+      background-image: var(--specular-gradient);
+    }
+
+    &.mask {
+      mix-blend-mode: var(--mask-blend);
+      background-image: var(--image-path);
+    }
+  }
+}

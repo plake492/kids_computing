@@ -1,0 +1,61 @@
+.card {
+  --card-width: calc(
+    (100% / var(--card-divider, 3)) - (var(--gap-offset) / 0.5)
+  );
+  --card-border: #{$border-radius};
+  --card-border-width: #{$border-width};
+  --card-border-color: #{$border-color};
+  --card-offset-height: 0px;
+  --card-display: inline-block;
+  --card-margin-botom: #{$space-xl};
+
+  border: var(--card-border-width) var(--card-border-color) solid;
+  border-radius: var(--card-border);
+  max-width: var(--card-width);
+  width: 100%;
+  display: var(--card-display);
+  overflow: hidden;
+  margin-bottom: var(--card-margin-botom);
+
+  @extend .bg-slate-grey;
+
+  &__header {
+    padding: $space-md $space-xl;
+
+    @extend .bg-slate-grey-10;
+    border-bottom: var(--card-border-color) var(--card-border-width) solid;
+  }
+
+  &__image {
+    width: calc(100% + (var(--card-border-width) * 2));
+    margin-left: calc(var(--card-border-width) * -1);
+    margin-top: calc(var(--card-offset-height) * -1);
+    margin-bottom: $space-md;
+  }
+
+  &__content {
+    @extend .text-sm;
+    padding: $space-md $space-xl;
+  }
+
+  &__links {
+    padding: $space-md $space-xl $space-xl;
+  }
+
+  &__footer {
+    @extend .bg-slate-grey-10;
+    @extend .text-xs;
+
+    border-bottom: var(--card-border-color) var(--card-border-width) solid;
+    padding: $space-md $space-xl;
+  }
+
+  &--no-border {
+    --card-border-width: 0px;
+  }
+
+  &--block {
+    --card-display: block;
+    --card-width: 100%;
+  }
+}

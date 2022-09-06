@@ -1,0 +1,50 @@
+.link {
+  $line-width: 100%;
+
+  --line-height: 1px;
+  --line-width: #{$line-width};
+  --link-color: var(--text-color);
+
+  color: var(--link-color);
+  text-decoration: none;
+  position: relative;
+  transition: text-shadow 200ms ease-in-out;
+  cursor: pointer;
+
+  &.nav-link:not(.link__active) {
+    --line-width: 0%;
+
+    &:hover {
+      --line-width: 100%;
+    }
+  }
+
+  &--active {
+    --line-height: 2px;
+    --line-width: 100%;
+  }
+
+  &--no-underline {
+    --line-height: 0px;
+  }
+
+  &--clear {
+    --link-color: var(--text-color);
+  }
+
+  &:not(.link--clear)::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: var(--link-color);
+    height: var(--line-height);
+    width: var(--line-width);
+    transition: width 200ms ease-in-out, transform 200ms ease-in-out;
+  }
+
+  :not(.link__active):hover {
+    --line-width: #{calc($line-width + 25%)};
+  }
+}

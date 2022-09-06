@@ -1,0 +1,80 @@
+.select {
+  --select-height: #{$space-md};
+  --select-padding-x: #{$space-md};
+  --select-padding-y: #{$space-sm};
+  --select-font-size: var(--base-font-size);
+
+  --label-font-size: var(--select-font-size);
+  --label-underline-width: 0%;
+  --label-border-width: 1px;
+  --label-border-color: #{$black};
+
+  width: 400px;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+
+  label {
+    --label-border-color: var(--bg-lake-80);
+    @extend .bg-slate-grey;
+
+    color: var(--text-color);
+    flex: 1;
+
+    font-size: var(--text-sm-size);
+    line-height: var(--label-font-size);
+    font-weight: var(--base-font-weight);
+
+    padding: calc(
+        var(--select-padding-y) + (var(--label-font-size) - var(--text-sm-size))
+      )
+      var(--select-padding-x);
+
+    border-radius: $border-radius;
+    border-width: var(--label-border-width);
+    border-color: var(--label-border-color);
+    border-style: solid;
+    // Remove Right border
+    border-right: none;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+  }
+
+  select {
+    --label-border-color: var(--bg-lake-80);
+    --select-arrow: #777;
+
+    @extend .bg-lake-80;
+    appearance: none;
+    width: 300px;
+    flex: 1;
+
+    padding: var(--select-padding-y) var(--select-padding-x);
+
+    border-width: var(--label-border-width);
+    border-color: var(--label-border-color);
+    border-style: solid;
+    border-radius: $border-radius;
+
+    // Remove Left border
+    border-left: none;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    font-size: var(--label-font-size);
+    line-height: var(--label-font-size);
+    cursor: pointer;
+
+    position: relative;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-$space-sm, -50%);
+    width: 0.8em;
+    height: 0.5em;
+    background-color: $black;
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  }
+}

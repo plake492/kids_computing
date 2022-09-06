@@ -1,0 +1,410 @@
+/**************************
+MIXINS
+***************************/
+@mixin selected-bg() {
+  content: '';
+  position: absolute;
+  width: var(--calendar-selected-width);
+  height: var(--calendar-selected-range-height);
+  background-color: var(--calendar-selected-range-day-bg-color);
+  top: 50%;
+  transform: translate(0%, -50%);
+
+  z-index: -1;
+}
+
+@mixin selected-extend-gradient($dir: left, $pos: start) {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    background: var(--calender-gradient-#{$dir});
+    #{$dir}: 0;
+    transform: translate(if($dir==left, -100%, 100%), 0);
+    width: calc(
+      (
+        var(--calender-#{$pos}-of-month-length) * var(--calender-day-width) +
+          (var(--calender-day-border-width) * 2)
+      )
+    );
+    height: calc(
+      var(--calendar-selected-range-height) +
+        (var(--calender-day-border-width) * 2)
+    );
+    z-index: -1;
+  }
+}
+
+.calendar {
+  $selected-height: 85%;
+
+  --calendar-number-of-calendars: 1;
+
+  --calendar-vertical-rows: 6;
+  --calendar-days-ratio: calc(7 / var(--calendar-vertical-rows));
+
+  --calendar-height: 450px;
+  --calendar-input-height: calc(var(--calendar-height) / 12);
+
+  // Calendar
+  --calendar-calendar-padding: #{$space-xl};
+  --calendar-calendar-padding-top: #{$space-xl};
+  --calendar-calendar-padding-bottom: #{$space-xl};
+  --calendar-calendar-padding-left: #{$space-xl};
+  --calendar-calendar-padding-right: #{$space-xl};
+
+  --calendar-calendar-height: calc(
+    var(--calendar-height) - var(--calendar-input-height)
+  );
+
+  // TODO Add Bg and text colors here
+  //   --calendar-calendar-bg-color:
+  //   --calendar-calendar-text-color:
+
+  // Year
+  --calendar-year-height: calc(var(--calendar-height) / 12);
+  --calendar-year-text-align: center;
+  --calendar-year-padding-x: #{$space-sm};
+  --calendar-year-padding-y: 0px;
+  --calendar-year-margin-x: 0px;
+  --calendar-year-margin-y: #{$space-md};
+
+  // Month
+  // --calendar-month-height: calc(var(--calendar-height) / 14);
+  --calendar-month-height: var(--calendar-year-height);
+  --calendar-month-text-align: center;
+  --calendar-month-padding-x: #{$space-sm};
+  --calendar-month-padding-y: 0px;
+  --calendar-month-margin-x: 0px;
+  --calendar-month-margin-y: 0px;
+
+  // Days Names
+  --calendar-days-names-height: calc(var(--calendar-height) / 16);
+  --calendar-days-names-font-size: 1.5rem;
+
+  // Days Wrapper
+  --calendar-days-wrapper-height: calc(
+    var(--calendar-height) - var(--calendar-input-height) -
+      var(--calendar-year-height) - var(--calendar-year-padding-y) -
+      (var(--calendar-year-margin-y) * 2) - var(--calendar-days-names-height) -
+      var(--calendar-calendar-padding-top) -
+      var(--calendar-calendar-padding-bottom)
+  );
+
+  // Day
+  --calendar-day-height: calc(
+    var(--calendar-days-wrapper-height) / var(--calendar-vertical-rows)
+  );
+  --calender-day-width: var(--calendar-day-height);
+  --calendar-day-font-size: 1.8rem;
+  --calender-day-border-width: 0px;
+
+  // Calculate calendar width to keep days blocks are perfect squares
+  --calendar-width: calc(
+    (
+      (var(--calendar-days-wrapper-height) * var(--calendar-days-ratio)) +
+        (
+          var(--calendar-calendar-padding-top) +
+            var(--calendar-calendar-padding-bottom)
+        ) * var(--calendar-number-of-calendars)
+    )
+  );
+
+  // Selected Day
+  --calendar-selected-day-bg-color: var(--bg-midnight);
+
+  // Selected Range
+  --calendar-selected-range-day-bg-color: var(--bg-midnight-60);
+  --calendar-selected-range-height: #{$selected-height};
+  --calendar-selected-width: 0%;
+
+  // Gradients
+  --calender-gradient-left: linear-gradient(
+    90deg,
+    var(--bg-lake) 0%,
+    var(--calendar-selected-range-day-bg-color) 50%
+  );
+  --calender-gradient-right: linear-gradient(
+    90deg,
+    var(--calendar-selected-range-day-bg-color) 50%,
+    var(--bg-lake) 100%
+  );
+
+  height: var(--calendar-height);
+  width: var(--calendar-width);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 0 auto;
+  box-shadow: $box-shadow;
+
+  @include md-size() {
+    --calendar-height: 600px;
+  }
+
+  // Top Input Header
+  &__input-wrapper {
+    @extend .bg-slate-grey;
+    width: 100%;
+    height: var(--calendar-input-height);
+    padding: $space-md;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  // Overall Calendar Wrapper
+  &__calendar-wrapper {
+    height: var(--calendar-calendar-height);
+    width: 100%;
+
+    @extend .bg-lake; // TODO Update Colors
+    padding-top: var(--calendar-calendar-padding-top);
+    padding-bottom: var(--calendar-calendar-padding-bottom);
+    padding-left: var(--calendar-calendar-padding-left);
+    padding-right: var(--calendar-calendar-padding-right);
+    display: flex;
+    gap: $space-md;
+  }
+
+  &__calendar-conainer {
+  }
+
+  // Calendar-header
+  &__header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 calc(var(--calendar-calendar-padding) * 2);
+  }
+
+  &__month-year-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    gap: $space-md;
+  }
+
+  &__arrow {
+    width: 25px;
+    height: 25px;
+    transition: 0.5s;
+    box-shadow: -2px 2px 0 var(--text-color);
+    cursor: pointer;
+  }
+
+  &__arrow-left {
+    transform: rotate(45deg);
+  }
+
+  &__arrow-right {
+    transform: rotate(-135deg);
+  }
+
+  &__year {
+    height: var(--calendar-year-height);
+    padding: var(--calendar-year-padding-y) var(--calendar-year-padding-x);
+    margin: var(--calendar-year-margin-y) var(--calendar-year-margin-x);
+    text-align: var(--calendar-year-text-align);
+    display: flex;
+    align-items: center;
+  }
+
+  &__month {
+    height: var(--calendar-month-height);
+    padding: var(--calendar-month-padding-y) var(--calendar-month-padding-x);
+    margin: var(--calendar-month-margin-y) var(--calendar-month-margin-x);
+    text-align: var(--calendar-month-text-align);
+    display: flex;
+    align-items: center;
+  }
+
+  &__days-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: var(--calendar-days-wrapper-height);
+  }
+
+  &__days {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__day-name {
+    --base-font-size: var(--calendar-days-names-font-size);
+
+    height: var(--calendar-days-names-height);
+    flex-basis: calc(100% / 7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__day-wrapper {
+    --base-font-size: var(--calendar-day-font-size);
+
+    height: var(--calendar-day-height);
+    transition: background-color 300ms ease-in-out;
+    flex-basis: calc(100% / 7);
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+
+    &.is-disabled {
+      cursor: default;
+    }
+  }
+
+  &__day {
+    --calender-day-border-color: #{$black};
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: var(--calender-day-border-width) solid
+      var(--calender-day-border-color);
+
+    &:hover:not(.is-disabled):not(.selected) {
+      --calender-day-border-width: 1px;
+
+      &:not(.in-selected-range) {
+        background-color: $lake;
+
+        &:not(.days-are-selected):not(.in-selected-range) {
+          &::before {
+            @include selected-bg();
+            left: 0;
+          }
+
+          // For the hover state on weekend end gradient width
+          &.hovered-end-weekend-end {
+            &::before {
+              width: 75%;
+              left: -25;
+            }
+          }
+        }
+      }
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+    }
+
+    // Handle extended gradient at start and end of monts
+    &--month-start {
+      &.selected-before,
+      &.in-selected-range //! Only works if hover and selected are the same style
+      {
+        @include selected-extend-gradient(left, start);
+      }
+    }
+
+    // Handle extended gradient at start and end of monts
+    &--month-end {
+      &.selected-after,
+      &.in-selected-range //! Only works if hover and selected are the same style
+      {
+        @include selected-extend-gradient(right, end);
+      }
+    }
+
+    &.selected {
+      background-color: var(--calendar-selected-day-bg-color);
+    }
+
+    &.selected-days-are-same {
+      --calender-day-border-width: 2px;
+      --calender-day-border-color: #{$violet};
+    }
+
+    &:not(.selected-days-are-same) {
+      &.selected-start-day {
+        &::before {
+          @include selected-bg();
+          right: 0;
+        }
+        // TODO set up weekend selected variables
+        &.calendar__day--weekend--start {
+          &.end-date-is-hovered,
+          &.days-are-selected {
+            &::before {
+              width: 75%;
+              transform: translate(25%, -50%);
+            }
+          }
+        }
+      }
+
+      &.selected-end-day {
+        &::before {
+          @include selected-bg();
+          left: 0;
+        }
+        // TODO set up weekend selected variables
+        &.calendar__day--weekend--end {
+          &::before {
+            width: 75%;
+            transform: translate(0, -50%);
+          }
+        }
+      }
+    }
+
+    &.in-selected-range {
+      &::before {
+        content: '';
+        position: absolute;
+        width: calc(100% + (var(--calender-day-border-width) * 2));
+        height: var(--calendar-selected-range-height);
+        background-color: var(--calendar-selected-range-day-bg-color);
+        left: calc(var(--calender-day-border-width) * -1);
+        top: 50%;
+        transform: translate(0, -50%);
+        z-index: -1;
+      }
+
+      // ? Override day height to avoid height chagne on hover,
+      // ? cannot set on all __day selectors
+      // TODO See about avoiding this line with a var?
+      &.calendar__day--month-start,
+      &.calendar__day--month-end {
+        &::before {
+          height: calc(
+            var(--calendar-selected-range-height) +
+              (var(--calender-day-border-width) * 2)
+          );
+        }
+      }
+    }
+
+    // Handle Weekend Selections
+    &--weekend {
+      &--start {
+        &.in-selected-range,
+        &.selected-start-day {
+          &::before {
+            width: 125%;
+            background: var(--calender-gradient-right);
+          }
+        }
+      }
+      &--end {
+        &.in-selected-range,
+        &.selected-end-day,
+        &.hovered-end-weekend-end:not(.selected-start-day) {
+          &::before {
+            width: 125%;
+            left: -25%;
+            background: var(--calender-gradient-left);
+          }
+        }
+      }
+    }
+  }
+}

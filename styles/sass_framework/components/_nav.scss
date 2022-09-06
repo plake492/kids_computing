@@ -1,0 +1,55 @@
+@mixin nav-bar-line() {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: calc($space-sm / 2);
+  background-color: var(--text-color);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: $border-radius;
+  top: 50%;
+}
+
+.nav {
+  position: relative;
+
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    transform: translate(0%, -100%);
+    z-index: 1;
+    transition: transform 300ms ease-in-out;
+
+    &.active {
+      transform: translate(0%, 0%);
+    }
+  }
+}
+
+.nav-icon {
+  height: $space-xl;
+  width: $space-xl;
+  position: relative;
+  cursor: pointer;
+
+  &::before {
+    @include nav-bar-line();
+    transform: translate(-50%, 200%);
+    transition: transform 300ms ease-in-out;
+  }
+  &::after {
+    @include nav-bar-line();
+    transform: translate(-50%, -200%);
+    transition: transform 300ms ease-in-out;
+  }
+
+  &.active {
+    &::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+}

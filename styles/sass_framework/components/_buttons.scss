@@ -1,0 +1,66 @@
+button:not(.btn) {
+  outline: none;
+  border: none;
+  background-color: inherit;
+}
+
+.btn {
+  --btn-color: var(--bg-color);
+  --btn-bg: var(--text-color);
+  --btn-border-color: var(--text-color);
+  --btn-border-width: 1px;
+  --btn-padding-buffer: 1px;
+  --btn-padding-x: #{calc($space-md + var(--btn-padding-buffer))};
+  --btn-padding-y: #{calc(($space-sm + var(--btn-padding-buffer)) * 1.444)};
+  --btn-margin-y: #{$space-md};
+  --btn-font-size: 2rem;
+  --btn-border-radius: #{$border-radius};
+  --btn-max-width: 25rem;
+  --btn-scale: 1;
+
+  cursor: pointer;
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  margin: var(--btn-margin-y) 0;
+  font-size: var(--btn-font-size);
+  border-color: var(--btn-border-color);
+  border-width: var(--btn-border-width);
+  border-style: solid;
+  border-radius: var(--btn-border-radius);
+  max-width: var(--btn-max-width);
+  width: 100%;
+  transform: scale(var(--btn-scale));
+  transition: background-color 200ms ease-in-out, color 200ms ease-in-out,
+    border-width 200ms ease-in-out, transform 200ms ease-in-out,
+    padding 200ms ease-in-out;
+
+  &:hover {
+    --btn-border-width: 2px;
+    // Remove 1px from padding to compensate for the added border
+    --btn-padding-x: #{calc($space-md + var(--btn-padding-buffer) - 1px)};
+    --btn-padding-y: #{calc(
+        (($space-sm + var(--btn-padding-buffer)) * 1.444) - 1px
+      )};
+  }
+
+  &:active {
+    --btn-scale: 0.98;
+  }
+
+  // * Button Variations* //
+
+  &--no-bg {
+    --btn-color: var(--text-color);
+    --btn-bg: var(--bg-color);
+
+    &:hover {
+      --btn-color: var(--bg-color);
+      --btn-bg: var(--text-color);
+    }
+  }
+
+  &--block {
+    --btn-max-width: 100%;
+  }
+}

@@ -1,0 +1,122 @@
+@use 'sass:map';
+
+@mixin respond-to($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin xl-size() {
+  @include respond-to($screen-xl-min) {
+    @content;
+  }
+}
+
+@mixin lg-size() {
+  @include respond-to($screen-lg-min) {
+    @content;
+  }
+}
+
+@mixin md-size() {
+  @include respond-to($screen-md-min) {
+    @content;
+  }
+}
+
+@mixin sm-size() {
+  @include respond-to($screen-sm-min) {
+    @content;
+  }
+}
+
+@mixin xs-size() {
+  @include respond-to($screen-xs-min) {
+    @content;
+  }
+}
+
+//  * Generate a responsive css variable
+//  *
+//  * @param {text} $var-to-update: the css variable, --css-var
+//  * @param {SASS Map} $map: must be a sass map containing keys of sm, md, lg, xl
+//  * @param {any} $starting-val: optional, the default value, will set value for xs devices
+//  */
+@mixin make-responsive-var($var-to-update, $map, $starting-val: null) {
+  @if ($starting-val) {
+    #{$var-to-update}: $starting-val;
+  } @else if (map-has-key($map, 'md')) {
+    $val: map.get($map, 'md');
+    #{$var-to-update}: #{$val};
+  } @else if (map-has-key($map, 'lg')) {
+    $val: map.get($map, 'lg');
+    #{$var-to-update}: #{$val};
+  }
+
+  $break-points-in-map: map.keys($map);
+  // this requires the map to container
+  // keys equal to the either (sm, md, lg, or ,xl)
+
+  @each $key /* = sm, md, lg, xl */ in $break-points-in-map {
+    $bp: map.get($breakpoints, $key); // Get bp by key
+    $val: map.get($map, $key);
+
+    @include respond-to($bp) {
+      #{$var-to-update}: #{$val};
+    }
+  }
+}
+
+//  * Generate a css class with responsive classes
+//  *
+//  * @param {SASS Map} $map: must be a sass map containing only values
+//  * @param {text} $class: the name of the class to output
+//  * @param {text} $property: the css property to effect
+//  */
+@mixin class-with-responsive-val-only($map, $class, $property) {
+  @each $val in $map {
+    .#{$class}-#{$val} {
+      #{$property}: $val;
+    }
+    @each $bp, $px in $breakpoints {
+      @include respond-to(#{$px}) {
+        .#{$class}-#{$bp}-#{$val} {
+          #{$property}: $val !important;
+        }
+      }
+    }
+  }
+}
+
+//  * Generate a css class with responsive classes using key and value from map
+//  *
+//  * @param {SASS Map} $map: must be a sass map containing key value pairs
+//  * @param {text} $class: the css property to effect
+//  * @param {text} $property: the css property to effect
+//  * @param {boolean} $calc-value: toggle for using calcualted value, must be paired with `$var-name`
+//  * @param {CSS var} $var-name: A css var to use for calculating the output value
+//  */
+@mixin class-with-responsive-key-and-val(
+  $map,
+  $class,
+  $property,
+  $calc-value: null,
+  $var-name: null
+) {
+  @each $key, $val in $map {
+    .#{$class}-#{$key} {
+      @if $calc-value and $var-name {
+        #{$property}: calc($val - var($var-name));
+      } @else {
+        #{$property}: $val;
+      }
+    }
+    @each $bp, $px in $breakpoints {
+      @include respond-to(#{$px}) {
+        .#{$class}-#{$bp}-#{$key} {
+          #{$property}: $val !important;
+        }
+      }
+    }
+  }
+}

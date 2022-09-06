@@ -1,0 +1,19 @@
+.transitions {
+  &__page-enter {
+    opacity: 0;
+  }
+
+  &__page-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in-out;
+  }
+
+  &__page-exit {
+    opacity: 1;
+  }
+
+  &__page-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+  }
+}

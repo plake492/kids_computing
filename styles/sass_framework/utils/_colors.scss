@@ -1,0 +1,199 @@
+@mixin generate-color-var($key, $value) {
+  --bg-#{$key}: #{$value};
+
+  @each $tone in $tones {
+    --bg-#{$key}-#{$tone}: #{get-color-scale-value($value, $tone)};
+  }
+}
+
+@mixin bg-classes() {
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: color 200ms ease-in-out, background 200ms ease-in-out;
+}
+
+// ************************************************* //
+// ************ Generate Color Bg Map  ************* //
+
+// ************ Generate Root color vars ************ //
+/* Set default root colors*/
+:root {
+  --bg-color: #{$bg-primary};
+  --text-color: #{$text-main};
+}
+
+@each $key, $value in $target-colors {
+  $text-color: get-contrasted-text($value);
+
+  .bg-#{'' + $key} {
+    /* Update Root colors, setting colors in child elements */
+    --bg-color: #{$value};
+    --text-color: #{$text-color};
+
+    @include bg-classes();
+  }
+
+  // * Add tones as classes * //
+  @each $tone in $tones {
+    $bg-color-tone: get-color-scale-value($value, $tone);
+    $text-color-tone: get-contrasted-text($bg-color-tone);
+
+    .bg-#{'' + $key}-#{$tone} {
+      /* Update Root colors, setting colors in child elements */
+      --bg-color: #{$bg-color-tone};
+      --text-color: #{$text-color-tone};
+
+      @include bg-classes();
+    }
+  }
+}
+// ************************************************************************ //
+// ***************** Generator complemenrty Color Schemes ***************** //
+$bg-comp-outputs: ('bg-1', 'bg-2');
+$bg-comp-primary: 100;
+$bg-comp-length-calc: length($bg-comp-outputs);
+
+@each $class in $bg-comp-outputs {
+  $i: index($bg-comp-outputs, $class);
+  $h-value: if($bg-comp-primary==0, 360, $bg-comp-primary) / ($i);
+  $hsl: hsl($h-value, 100, 50);
+  $text-color: get-contrasted-text($hsl);
+
+  .comp-#{$class} {
+    /* Update Root colors, setting colors in child elements */
+    --bg-color: #{$hsl};
+    --text-color: #{$text-color};
+    @include bg-classes();
+  }
+}
+
+// ************************************************************************ //
+// **************** Generator Monochromatic Color Schemes ***************** //
+$bg-mono-outputs: ('bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5');
+$bg-mono-primary: 145;
+$bg-mono-length-calc: length($bg-mono-outputs);
+
+// Saturation Values
+$bg-mono-sat-starting: 85;
+$bg-mono-sat-min: 65;
+$bg-mono-sat-scale: ($bg-mono-sat-starting - $bg-mono-sat-min) /
+  ($bg-mono-length-calc - 1);
+
+// Brightness Values
+$bg-mono-brightness-starting: 50;
+$bg-mono-brightness-max: 80;
+$bg-mono-brightness-scale: (
+    $bg-mono-brightness-max - $bg-mono-brightness-starting
+  ) / $bg-mono-length-calc;
+
+@function generate-monochromatic-hsl($i) {
+  $sat-value: calc($bg-mono-sat-starting - ($bg-mono-sat-scale * ($i - 1)));
+  $bright-value: calc(
+    $bg-mono-brightness-starting + ($bg-mono-brightness-scale * ($i - 1))
+  );
+  @return hsl($bg-mono-primary, $sat-value, $bright-value);
+}
+
+@each $class in $bg-mono-outputs {
+  $i: index($bg-mono-outputs, $class);
+  $hsl: generate-monochromatic-hsl($i);
+  $text-color: get-contrasted-text($hsl);
+
+  .mono-#{$class} {
+    /* Update Root colors, setting colors in child elements */
+    --bg-color: #{$hsl};
+    --text-color: #{$text-color};
+    @include bg-classes();
+  }
+}
+
+// ************************************************************************ //
+// ********************* Generator Analgous Color Schemes ***************** //
+$bg-analg-class-outputs: (
+  'bg-3',
+  'bg-2',
+  'bg-6',
+  'bg-1',
+  'bg-4',
+  'bg-7',
+  'bg-5'
+);
+
+$bg-analg-color-scale: 10; // Disatance between H values
+$bg-analg-anchor-point: 280; // Primary H value
+
+$bg-analg-saturation: 100%; // S value
+$bg-analg-brightness: 50%; // L value
+
+$bg-analg-class-length: (length($bg-analg-class-outputs) - 1) / 2;
+$starting-point: $bg-analg-color-scale * $bg-analg-class-length;
+
+@function generate-analgous-hsl($class) {
+  $i: index($bg-analg-class-outputs, $class);
+
+  // Calculate the H value
+  @return hsl(
+    (
+      $starting-point - (($i - 1) * $bg-analg-color-scale) +
+        $bg-analg-anchor-point
+    ),
+    $bg-analg-saturation,
+    $bg-analg-brightness
+  );
+}
+
+@each $class in $bg-analg-class-outputs {
+  $value: generate-analgous-hsl($class);
+  $text-color: get-contrasted-text($value);
+
+  .analg-#{$class} {
+    /* Update Root colors, setting colors in child elements */
+    --bg-color: #{$value};
+    --text-color: #{$text-color};
+    @include bg-classes();
+  }
+
+  // Add tones of created colors
+  @each $tone in $tones {
+    $bg-color-tone: get-color-scale-value($value, $tone);
+    $text-color-tone: get-contrasted-text($bg-color-tone);
+
+    .analg-#{$class}-#{$tone} {
+      /* Update Root colors, setting colors in child elements */
+      --bg-color: #{$bg-color-tone};
+      --text-color: #{$text-color-tone};
+      @include bg-classes();
+    }
+  }
+}
+
+:root {
+  @each $key, $value in $target-colors {
+    @include generate-color-var($key, $value);
+  }
+
+  @each $class in $bg-comp-outputs {
+    $i: index($bg-comp-outputs, $class);
+    $h-value: if($bg-comp-primary==0, 360, $bg-comp-primary) / ($i);
+    $hsl: hsl($h-value, 100, 50);
+
+    --comp-#{$class}: #{$hsl};
+  }
+
+  @each $class in $bg-mono-outputs {
+    $i: index($bg-mono-outputs, $class);
+    $hsl: generate-monochromatic-hsl($i);
+
+    --mono-#{$class}: #{$hsl};
+  }
+
+  @each $class in $bg-analg-class-outputs {
+    $value: generate-analgous-hsl($class);
+
+    --analg-#{$class}: #{$value};
+    // // Add tones of created colors
+    // @each $tone in $tones {
+    //   --analg-#{$class}-#{$tone}: #{get-color-scale-value($value, $tone)};
+    // }
+  }
+}
