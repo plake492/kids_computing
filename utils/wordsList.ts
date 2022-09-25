@@ -12,7 +12,8 @@ export const words = [
   'Kari',
   'Alisha',
   'Micha',
-];
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+]
 
 export const letters = [
   'A',
@@ -40,5 +41,5 @@ export const letters = [
   'W',
   'X',
   'Y',
-  'Z',
-];
+  'Z'
+]

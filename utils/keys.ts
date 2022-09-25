@@ -12,8 +12,8 @@ const keysRow1 = [
   { code: 'Digit0', char: '0', size: 'sm' },
   { code: 'Minus', char: '-', size: 'sm' },
   { code: 'Equal', char: '=', size: 'sm' },
-  { code: 'Backspace', char: 'Delete', size: 'md' },
-];
+  { code: 'Backspace', char: 'Delete', size: 'md' }
+]
 const keysRow2 = [
   { code: 'Tab', char: 'Tab', size: 'md' },
   { code: 'KeyQ', char: 'Q', size: 'sm' },
@@ -28,8 +28,8 @@ const keysRow2 = [
   { code: 'KeyP', char: 'P', size: 'sm' },
   { code: 'BracketLeft', char: '[', size: 'sm' },
   { code: 'BracketRight', char: ']', size: 'sm' },
-  { code: 'Backslash', char: '\\', size: 'sm' },
-];
+  { code: 'Backslash', char: '\\', size: 'sm' }
+]
 const keysRow3 = [
   { code: 'CapsLock', char: 'Caps Lock', size: 'lg' },
   { code: 'KeyA', char: 'A', size: 'sm' },
@@ -43,8 +43,8 @@ const keysRow3 = [
   { code: 'KeyL', char: 'L', size: 'sm' },
   { code: 'Semicolon', char: ':', size: 'sm' },
   { code: 'Quote', char: "'", size: 'sm' },
-  { code: 'Enter', char: 'Enter', size: 'lg' },
-];
+  { code: 'Enter', char: 'Enter', size: 'lg' }
+]
 const keysRow4 = [
   { code: 'ShiftLeft', char: 'Shift', size: 'xl' },
   { code: 'KeyZ', char: 'Z', size: 'sm' },
@@ -57,9 +57,10 @@ const keysRow4 = [
   { code: 'Comma', char: ',', size: 'sm' },
   { code: 'Period', char: '.', size: 'sm' },
   { code: 'Slash', char: '/', size: 'sm' },
-  { code: 'ShiftRight', char: 'Shift', size: 'xl' },
-];
+  { code: 'ShiftRight', char: 'Shift', size: 'xl' }
+]
+const keysRow5 = [{ code: 'Space', char: ' ', size: 'xl' }]
 
-export const keysList = [keysRow1, keysRow2, keysRow3, keysRow4];
+export const keysList = [keysRow1, keysRow2, keysRow3, keysRow4, keysRow5]
 
-export const allChars = [...keysRow1, ...keysRow2, ...keysRow3, ...keysRow4];
+export const allChars = [...keysRow1, ...keysRow2, ...keysRow3, ...keysRow4]

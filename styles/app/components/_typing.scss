@@ -1,23 +1,35 @@
 .typing {
   &__key {
     &--highlighted {
-      outline: 8px $white solid;
+      outline-style: solid;
+      outline-color: $white;
+      outline-width: 8px;
+      animation: border-puls 1s ease-in-out 0s infinite alternate running;
+      background-color: #00c8ff;
+    }
+
+    &--hoverd {
+      @extend .bg-purple-30;
+      outline-style: solid;
+      outline-color: $white;
+      outline-width: 1px;
     }
   }
 
   &__word {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(23, 23, 23, 0.5);
     padding: $space-md $space-xl;
     border-radius: $border-radius;
     display: flex;
-    gap: $space-xl;
+    column-gap: $space-xl;
+    flex-wrap: wrap;
 
     &__letter {
       color: var(--letter-color);
 
       &.active {
         position: relative;
-        text-shadow: 1px 1px 10px var(--letter-color);
+        text-shadow: 2px 2px 2px var(--letter-color);
 
         &::after {
           content: '';
@@ -31,5 +43,39 @@
         }
       }
     }
+  }
+}
+.waviy {
+  position: relative;
+
+  span {
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    animation: waviy 1s 3;
+    animation-delay: calc(0.1s * var(--i));
+  }
+}
+
+@keyframes waviy {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes border-puls {
+  from {
+    border-width: 8px;
+    outline-color: #efefef;
+  }
+
+  to {
+    border-width: 12px;
+    outline-color: #ff00d4;
   }
 }

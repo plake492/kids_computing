@@ -69,6 +69,7 @@ body {
   height: 5px;
   border-radius: 50%;
   box-shadow: $box-shadow2;
+  z-index: 10;
   @include animation(
     (
       1s bang ease-out infinite backwards,
