@@ -59,7 +59,8 @@ const keysRow4 = [
   { code: 'Slash', char: '/', size: 'sm' },
   { code: 'ShiftRight', char: 'Shift', size: 'xl' },
 ];
+const keysRowR = [{ code: 'Space', char: ' ', size: 'xl' }];
 
-export const keysList = [keysRow1, keysRow2, keysRow3, keysRow4];
+export const keysList = [keysRow1, keysRow2, keysRow3, keysRow4, keysRowR];
 
 export const allChars = [...keysRow1, ...keysRow2, ...keysRow3, ...keysRow4];

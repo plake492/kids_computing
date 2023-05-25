@@ -10,6 +10,7 @@ export const words = [
   'J J',
   'Ralph',
   'Kari',
+  'Pepper',
   'Alisha',
   'Micha',
 ];
